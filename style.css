@@ -1,0 +1,9 @@
+#spinner {
+    position: absolute;
+    background-color: #333;
+    width: 70px;
+    height: 70px;
+    color: white;
+    border-radius: 10px;
+    display: none;
+}

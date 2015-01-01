@@ -1,0 +1,19 @@
+{
+  "name": "slutilities",
+  "main": "utilities.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/karlcampbell/SlUtilities",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+	  "spin.js": "2.0.1",
+	  "toastr": "2.1.0"
+  }
+}

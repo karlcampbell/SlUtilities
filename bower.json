@@ -1,6 +1,9 @@
 {
   "name": "slutilities",
-  "main": "utilities.js",
+  "main": [
+	  "utilities.js",
+	  "utilities.css"
+  ],
   "version": "0.0.1",
   "homepage": "https://github.com/karlcampbell/SlUtilities",
   "license": "MIT",

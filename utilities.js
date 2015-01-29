@@ -1,6 +1,6 @@
 'use strict';
 
-var utilities = angular.module('SlUtilities', []);
+var utilities = angular.module('SlUtilities', ['ui.router']);
 
 utilities.directive('spinner', function ($window, spinner) {
   return {
@@ -52,36 +52,64 @@ utilities.directive('spinner', function ($window, spinner) {
 //factory
 
 
-utilities.factory('utilities', function (spinner, toast, $state) {
+utilities
+  .factory('spinner', function () {
 
+    var spin = false;
+
+    // Public API here
     return {
-      spin: function(start) {
-        if(start) {
-          spinner.start();
-        } else {
-          spinner.stop();
-        }
+      start: function () {
+        spin = true;
       },
-
-      redirect: function(message, state, error) {
-        spinner.stop();
-        if(!error) {
-          toast.success(message);
-        } else {
-          toast.error(message);
-        }
-        $state.go(state.state, state.params);
+      stop: function () {
+        spin = false;
       },
-
-      message: function(message, type) {
-        if(!type || type === 'success') {
-          toast.success(message);
-        }
-        if(type === 'error') {
-          toast.error(message);
-        }
+      spinning: function () {
+        return spin;
       }
-
-
     };
-  });
+  })
+  .factory('toast', function () {
+    return {
+      success: function (message) {
+        toastr.success(message)
+      },
+      error: function (message) {
+        toastr.error(message);
+      }
+    };
+  })
+  .factory('utilities', function (spinner, toast, $state) {
+
+      return {
+        spin: function(start) {
+          if(start === undefined) {
+            spinner.start();
+          } else {
+            spinner.stop();
+          }
+        },
+
+        redirect: function(message, state, error) {
+          spinner.stop();
+          if(!error) {
+            toast.success(message);
+          } else {
+            toast.error(message);
+          }
+          $state.go(state.state, state.params);
+        },
+
+        message: function(message, type) {
+          if(!type || type === 'success') {
+            toast.success(message);
+          }
+          if(type === 'error') {
+            toast.error(message);
+          }
+        }
+
+
+      };
+    });

@@ -52,31 +52,36 @@ utilities.directive('spinner', function ($window, spinner) {
 //factory
 
 
-utilities
-  .factory('spinner', function () {
+utilities.factory('utilities', function (spinner, toast, $state) {
 
-    var spin = false;
+    return {
+      spin: function(start) {
+        if(start) {
+          spinner.start();
+        } else {
+          spinner.stop();
+        }
+      },
 
-    // Public API here
-    return {
-      start: function () {
-        spin = true;
+      redirect: function(message, state, error) {
+        spinner.stop();
+        if(!error) {
+          toast.success(message);
+        } else {
+          toast.error(message);
+        }
+        $state.go(state.state, state.params);
       },
-      stop: function () {
-        spin = false;
-      },
-      spinning: function () {
-        return spin;
+
+      message: function(message, type) {
+        if(!type || type === 'success') {
+          toast.success(message);
+        }
+        if(type === 'error') {
+          toast.error(message);
+        }
       }
-    };
-  })
-  .factory('toast', function () {
-    return {
-      success: function (message) {
-        toastr.success(message)
-      },
-      error: function (message) {
-        toastr.error(message);
-      }
+
+
     };
   });

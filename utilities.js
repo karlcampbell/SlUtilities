@@ -84,7 +84,7 @@ utilities
 
       return {
         spin: function(start) {
-          if(start === undefined) {
+          if(start === true) {
             spinner.start();
           } else {
             spinner.stop();
@@ -108,7 +108,16 @@ utilities
           if(type === 'error') {
             toast.error(message);
           }
-        }
+        },
+		
+	    errors: function(message, errors) {
+	             message += '<ul>';
+	             angular.forEach(errors, function(e) {
+	               message += '<li>' + e + '</li>';
+	             });
+	             message += '</ul>';
+	             toast.error(message);
+	           }
 
 
       };

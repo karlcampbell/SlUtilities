@@ -1,6 +1,6 @@
 'use strict';
 
-var utilities = angular.module('SlUtilities', ['ui.router']);
+var utilities = angular.module('sl.utilities', ['ui.router']);
 
 utilities.directive('spinner', function ($window, spinner) {
   return {
@@ -25,7 +25,7 @@ utilities.directive('spinner', function ($window, spinner) {
       }
 
       scope.$watch(spinner.spinning, function (start) {
-        //console.log(attr.usSpinner);
+
         if (start) {
           startSpinner()
         } else {
@@ -80,45 +80,47 @@ utilities
       }
     };
   })
-  .factory('utilities', function (spinner, toast, $state) {
+  .factory('sl', function (spinner, toast, $state) {
 
-      return {
-        spin: function(start) {
-          if(start === true) {
-            spinner.start();
-          } else {
-            spinner.stop();
-          }
-        },
+    return {
+      spin: function (start) {
+        if (start === true) {
 
-        redirect: function(message, state, error) {
+          spinner.start();
+        } else {
           spinner.stop();
-          if(!error) {
-            toast.success(message);
-          } else {
-            toast.error(message);
-          }
-          $state.go(state.state, state.params);
-        },
+        }
+      },
 
-        message: function(message, type) {
-          if(!type || type === 'success') {
-            toast.success(message);
-          }
-          if(type === 'error') {
-            toast.error(message);
-          }
-        },
-		
-	    errors: function(message, errors) {
-	             message += '<ul>';
-	             angular.forEach(errors, function(e) {
-	               message += '<li>' + e + '</li>';
-	             });
-	             message += '</ul>';
-	             toast.error(message);
-	           }
+      redirect: function (message, state, error) {
+        spinner.stop();
+        if (!error) {
+          toast.success(message);
+        } else {
+          toast.error(message);
+        }
+        $state.go(state.state, state.params);
+      },
+
+      message: function (message, type) {
+        if (!type || type === 'success') {
+          toast.success(message);
+        }
+        if (type === 'error') {
+          toast.error(message);
+        }
+      },
+
+      errors: function (message, errors) {
+        spinner.stop();
+        message += '<ul>';
+        angular.forEach(errors, function (e) {
+          message += '<li>' + e + '</li>';
+        });
+        message += '</ul>';
+        toast.error(message);
+      }
 
 
-      };
-    });
+    };
+  });
